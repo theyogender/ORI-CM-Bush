@@ -1,0 +1,157 @@
+<!-- Kindly Adjust(Minimise to 90%) your Browser size as the css used is according to my browser, Thankyou  -->
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ORI CM-Bush</title>
+    
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    
+             <div id="nav"></div>
+             <div id="nav1"></div>
+             <div id="dropdawn"></div>
+             <div id="root"></div>
+             <div id="device3">  </div>
+    
+     <script type="text/babel" >
+      const { useState ,useEffect} = React;
+      let k=0
+      let Hottmp=0
+      let Hightmp=0
+
+      function Nav(){
+        const [showdropdwn,setdropdwn]=useState(false)
+
+        const [Hottemp, setHottemp] = useState(0);
+        const [Hightemp, setHightemp] = useState(0);
+
+        function dropdawn(){
+          setdropdwn(!showdropdwn)
+          ReactDOM.render(<Nav/>, document.getElementById('nav'));
+        }
+
+        const handleInputChange = (e, setter) => {
+        setter(e.target.value);
+         };
+
+        function Settemp(){
+          setdropdwn(!showdropdwn)
+          Hottmp=Hottemp
+          Hightmp=Hightemp
+          ReactDOM.render(<TemperatureInputs />, document.getElementById('root'));
+          ReactDOM.render(<Nav/>, document.getElementById('nav'));
+         
+        }
+        
+        return(
+          <div class="nav-ul">
+      
+        {showdropdwn==false?<li style={{'background-color':'skyblue'}} onClick={dropdawn}>Temprature Alarm Settings(deg C)</li>:
+        <div>
+          <li style={{'background-color':'skyblue'}} onClick={dropdawn}>Temprature Alarm Settings(deg C)</li>
+            <div class='dropdwn'>
+              <label >Hotspot Temprature:</label>
+              <input type="Number" value={Hottemp} placeholder="temp in C" onChange={(e) => handleInputChange(e, setHottemp)} />
+              <br />
+              <label >High Temperature:</label>
+              <input type="Number" value={Hightemp} placeholder="temp in C" onChange={(e) => handleInputChange(e, setHightemp)} />
+              <button onClick={Settemp} style={{'color':'blue','padding':'2px','margin-left':'10px'}}> Set Temperatures</button>
+              </div>
+            </div>
+        }
+      <li style={{'background-color':'red'}}>Hotspot above {Hottmp} deg C</li>
+      <li style={{'background-color':'yellow'}}>High above {Hightmp} deg C</li>
+      <li style={{'background-color':'grey'}}>Change</li>
+      
+          </div> 
+        )
+      }
+      
+      function Nav1(){
+        alert(' Kindly Adjust your Browser size (Minimise to 90%) as the css used is according to my browser, Thankyou')
+        return(
+            <div class="nav-ul1">
+      
+                  <li style={{'background-color':'skyblue'}}>Total</li>
+                  <li style={{'background-color':'grey'}}>Offline</li>
+                  <li style={{'background-color':'red'}}>Alert</li>
+                 <li style={{'background-color':'yellow'}}>Warning</li>
+                 <li style={{'background-color':'green'}}>Normal</li>
+            </div>  
+        )
+      }
+      
+     function Output(){
+             
+               if(k==1){
+                alert("Warning! Device have High temparature")
+               }
+               else if(k==2)
+               {
+                alert("Alert! Device have Hotspot temparature")
+               }
+
+        return(
+                 k==0?<div class="device"></div>:k==1 ?<div class="deviceyellow"></div>:<div class="deviceRed"></div>
+              )
+       }      
+
+    function TemperatureInputs() {
+      const [temp1, setTemp1] = useState(0);
+      const [temp2, setTemp2] = useState(0);
+      const [temp3, setTemp3] = useState(0);
+      
+      const handleTempChange = (e, setter) => {
+        setter(e.target.value);
+      };
+       
+      let Hot=parseInt(Hottmp)
+      let High=parseInt(Hightmp)
+      
+      function checktemp(){
+        
+        console.warn(Hot,High,temp1,temp2,temp3)
+        
+        {(temp1 > Hot ||temp2 > Hot||temp3 > Hot)?k=2:(temp1 > High|| temp2 > High || temp3 > High)?k=1:k=0}
+        
+        ReactDOM.render(<Output />, document.getElementById('device3'));
+      }
+
+      return (
+            
+      <div class="device1">
+               <p>Device 1</p>
+   
+        <div className="temperature-box">
+          <div className="temperature">
+            <label>Temperature 1:</label>
+            <input type="Number"   placeholder="temp in C" value={temp1} onChange={(e) => handleTempChange(e, setTemp1)} />
+          </div>
+          <div className="temperature">
+            <label >Temperature 2:</label>
+            <input type="Number"  placeholder="temp in C" value={temp2} onChange={(e) => handleTempChange(e, setTemp2)} />
+          </div>
+          <div className="temperature">
+            <label >Temperature 3:</label>
+            <input type="Number"  placeholder="temp in C" value={temp3} onChange={(e) => handleTempChange(e, setTemp3)} />
+          </div>
+          <button onClick ={checktemp}>Check status</button>
+        </div>
+       </div>
+      );
+    }
+    ReactDOM.render(<Nav />, document.getElementById('nav'));
+    ReactDOM.render(<Nav1 />, document.getElementById('nav1'));
+    ReactDOM.render(<TemperatureInputs />, document.getElementById('root'));
+    ReactDOM.render(<Output />, document.getElementById('device3'));
+  </script>
+
+
+
+    
+  </body>
+</html>
